@@ -24,13 +24,21 @@ repositories {
 	mavenCentral()
 }
 
+def db = project.findProperty("db") ?: "mysql"
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	testRuntimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
+	
+	if (db == "mysql") {
+		runtimeOnly 'com.mysql:mysql-connector-j'
+	} else if (db == "h2") {
+		runtimeOnly 'com.h2database:h2'
+	}
+
+	// 测试
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
