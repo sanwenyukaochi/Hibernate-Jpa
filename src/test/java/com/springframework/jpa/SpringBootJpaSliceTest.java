@@ -9,10 +9,12 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.assertj.core.api.AssertionsForClassTypes;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.annotation.Commit;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DataJpaTest
+@ComponentScan(basePackages = {"com.springframework.jpa.bootstrap"})
 public class SpringBootJpaSliceTest {
     @Autowired
     BookRepository bookRepository;
@@ -22,7 +24,7 @@ public class SpringBootJpaSliceTest {
     @Test
     void testJpaTestSplice() {
         long countBefore = bookRepository.count();
-        AssertionsForClassTypes.assertThat(countBefore).isEqualTo(0);
+        AssertionsForClassTypes.assertThat(countBefore).isEqualTo(2);
 
         bookRepository.save(new Book("My Book", "1235555", "Self"));
 
@@ -35,6 +37,6 @@ public class SpringBootJpaSliceTest {
     @Test
     void testJpaTestSpliceTransaction() {
         long countBefore = bookRepository.count();
-        AssertionsForClassTypes.assertThat(countBefore).isEqualTo(1);
+        AssertionsForClassTypes.assertThat(countBefore).isEqualTo(3);
     }
 }
